@@ -102,7 +102,6 @@ def translate_to_english(tuple):
 name, times, start, end, teacher, number_of_lessons, course_type, issue, online = translate_to_english(extract_info_from_pdf("test.pdf"))
 
 trello_api_key = "8e53e159bfd453ff5e591331354b8d7c"
-trello_api_secret = "14582dd42cec40b4db7086b417995a96146c1278af361f5e7eceb63509faa04f"
 trello_api_token = "ATTA3e3708c76c5b83e6e7d33b4c67d075ee4b940e12439164fbda436f11a980595a64DB0CC0"
 
 url = "https://api.trello.com/1/cards"
