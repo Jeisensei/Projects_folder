@@ -2,6 +2,7 @@ from PyPDF2 import PdfReader
 import re
 import requests
 import json
+import deepl
 
 def extract_info_from_pdf(pdf_path):
   """
@@ -85,9 +86,9 @@ def extract_info_from_pdf(pdf_path):
 # print(extract_info_from_pdf("test.pdf"))
 
 
-api_key = "8e53e159bfd453ff5e591331354b8d7c"
-api_secret = "14582dd42cec40b4db7086b417995a96146c1278af361f5e7eceb63509faa04f"
-api_token = "ATTA3e3708c76c5b83e6e7d33b4c67d075ee4b940e12439164fbda436f11a980595a64DB0CC0"
+trello_api_key = "8e53e159bfd453ff5e591331354b8d7c"
+trello_api_secret = "14582dd42cec40b4db7086b417995a96146c1278af361f5e7eceb63509faa04f"
+trello_api_token = "ATTA3e3708c76c5b83e6e7d33b4c67d075ee4b940e12439164fbda436f11a980595a64DB0CC0"
 
 url = "https://api.trello.com/1/cards"
 
@@ -98,8 +99,8 @@ headers = {
 query = {
   "idBoard" : "66445a09b49a5efca4266723",
   "idList": "66445a4f53669f1039084b0d",
-  "key" : api_key,
-  "token" : api_token,
+  "key" : trello_api_key,
+  "token" : trello_api_token,
   "name" : "{} (Lesson Request)".format(extract_info_from_pdf("test.pdf")[0]),
   "desc" : "Name: {0}\nTimes: {1}\nStart: {2}\nEnd: {3}\nTeacher: {4}\nNumber of lessons: {5}\nCourse type: {6}\nIssue: {7}\nOnline: {8}".format(*extract_info_from_pdf("test.pdf"))
 }
@@ -110,3 +111,8 @@ response = requests.request(
    headers=headers,
    params=query
 )
+
+deepl_api_key = "c2772beb-6386-4c47-ad0b-339f934dc7d8:fx"
+translator = deepl.Translator(deepl_api_key)
+result = translator.translate_text(extract_info_from_pdf("test.pdf")[0], source_lang="ja", target_lang="EN-US")
+print(result.text)
