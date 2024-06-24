@@ -1,7 +1,6 @@
 from PyPDF2 import PdfReader
 import re
 import requests
-import json
 import deepl
 
 def extract_info_from_pdf(pdf_path):
@@ -82,9 +81,25 @@ def extract_info_from_pdf(pdf_path):
 
   return (name, times, start, end, teacher, number_of_lessons, course_type, issue, online)
 
+def translate_to_english(tuple):
+  """
+  Translates a tuple of Japanese words to English using the DeepL API.
 
-# print(extract_info_from_pdf("test.pdf"))
+  Parameters:
+      tuple (tuple): A tuple of Japanese words.
 
+  Returns:
+      list: A list of translated English words.
+  """
+  deepl_api_key = "c2772beb-6386-4c47-ad0b-339f934dc7d8:fx"
+  translator = deepl.Translator(deepl_api_key)
+  result_list = []
+  for word in tuple:
+    result = translator.translate_text(word, source_lang="ja", target_lang="EN-US")
+    result_list.append(result.text)
+  return result_list
+
+name, times, start, end, teacher, number_of_lessons, course_type, issue, online = translate_to_english(extract_info_from_pdf("test.pdf"))
 
 trello_api_key = "8e53e159bfd453ff5e591331354b8d7c"
 trello_api_secret = "14582dd42cec40b4db7086b417995a96146c1278af361f5e7eceb63509faa04f"
@@ -101,8 +116,8 @@ query = {
   "idList": "66445a4f53669f1039084b0d",
   "key" : trello_api_key,
   "token" : trello_api_token,
-  "name" : "{} (Lesson Request)".format(extract_info_from_pdf("test.pdf")[0]),
-  "desc" : "Name: {0}\nTimes: {1}\nStart: {2}\nEnd: {3}\nTeacher: {4}\nNumber of lessons: {5}\nCourse type: {6}\nIssue: {7}\nOnline: {8}".format(*extract_info_from_pdf("test.pdf"))
+  "name" : "{} (Lesson Request)".format(name),
+  "desc" : "Name: {0}\nTimes: {1}\nStart: {2}\nEnd: {3}\nTeacher: {4}\nNumber of lessons: {5}\nCourse type: {6}\nIssue: {7}\nOnline: {8}".format(name, times, start, end, teacher, number_of_lessons, course_type, issue, online)
 }
 
 response = requests.request(
@@ -112,7 +127,4 @@ response = requests.request(
    params=query
 )
 
-deepl_api_key = "c2772beb-6386-4c47-ad0b-339f934dc7d8:fx"
-translator = deepl.Translator(deepl_api_key)
-result = translator.translate_text(extract_info_from_pdf("test.pdf")[0], source_lang="ja", target_lang="EN-US")
-print(result.text)
+print(name, times, start, end, teacher, number_of_lessons, course_type, issue, online)
