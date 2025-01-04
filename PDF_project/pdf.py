@@ -39,55 +39,56 @@ def extract_info_from_pdf(pdf_path):
   reader = PdfReader(pdf_path)
   page = reader.pages[0]
   text = page.extract_text()
-
   print(text)
 
-  name_pattern = r"作成日([\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF0-9A-Za-z]+\s[\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF0-9A-Za-z]+)"
-  name_matches = re.search(name_pattern, text)
-  name = name_matches[0][3:]
-  # print(name)
+  # print(text)
 
-  times_pattern = r"(週[0-9]日) 頻度" 
-  times_matches = re.search(times_pattern, text)
-  times = times_matches[1][:3]
-  # print(times)
+  # name_pattern = r"作成日([\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF0-9A-Za-z]+\s[\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF0-9A-Za-z]+)"
+  # name_matches = re.search(name_pattern, text)
+  # name = name_matches[0][3:]
+  # # print(name)
 
-  start_pattern = r"([0-9]{4}\/[0-9]{2}\/[0-9]{2}) 開始日"
-  start_matches = re.search(start_pattern, text)
-  start = start_matches[1][:-3]
-  # print(start)
+  # times_pattern = r"(週[0-9]日) 頻度" 
+  # times_matches = re.search(times_pattern, text)
+  # times = times_matches[1][:3]
+  # # print(times)
 
-  end_pattern = r"([0-9]{4}\/[0-9]{2}\/[0-9]{2}) 終了日"
-  end_matches = re.search(end_pattern, text)
-  end = end_matches[1][:-3]
-  # print(end)
+  # start_pattern = r"([0-9]{4}\/[0-9]{2}\/[0-9]{2}) 開始日"
+  # start_matches = re.search(start_pattern, text)
+  # start = start_matches[1][:-3]
+  # # print(start)
 
-  teacher_pattern = r"([一-龯ァ-ン]*＋?[一-龯ァ-ン]+講師) 講師"
-  teacher_matches = re.search(teacher_pattern, text)
-  teacher = teacher_matches[1][:-3]
-  # print(teacher) 
+  # end_pattern = r"([0-9]{4}\/[0-9]{2}\/[0-9]{2}) 終了日"
+  # end_matches = re.search(end_pattern, text)
+  # end = end_matches[1][:-3]
+  # # print(end)
 
-  number_of_lessons_pattern = r"([0-9]+)\s実レッスン数"
-  number_of_lessons_matches = re.search(number_of_lessons_pattern, text)
-  number_of_lessons = number_of_lessons_matches[1]
-  # print(number_of_lessons)
+  # teacher_pattern = r"([一-龯ァ-ン]*＋?[一-龯ァ-ン]+講師) 講師"
+  # teacher_matches = re.search(teacher_pattern, text)
+  # teacher = teacher_matches[1][:-3]
+  # # print(teacher) 
 
-  course_type_pattern = r"レッスンタイププライベート・?レッスン ([一-龯ぁ-んァ-ン。A-Za-z0-9\s\（\）\-\.ヵ\nー\/\・、,]+)受講目的"
-  course_type_matches = re.search(course_type_pattern, text)
-  course_type = course_type_matches[1]
-  # print(course_type)
+  # number_of_lessons_pattern = r"([0-9]+)\s実レッスン数"
+  # number_of_lessons_matches = re.search(number_of_lessons_pattern, text)
+  # number_of_lessons = number_of_lessons_matches[1]
+  # # print(number_of_lessons)
 
-  issue_pattern = r"お願い申し上げます。([ー \・一-龯ぁ-んァ-ン。A-Za-z 0-9\s\（\）\-\.ヵ\n、]+)課題と内容"
-  issue_matches = re.search(issue_pattern, text)
-  issue = issue_matches[1]
-  # print(issue)
+  # course_type_pattern = r"レッスンタイププライベート・?レッスン ([一-龯ぁ-んァ-ン。A-Za-z0-9\s\（\）\-\.ヵ\nー\/\・、,]+)受講目的"
+  # course_type_matches = re.search(course_type_pattern, text)
+  # course_type = course_type_matches[1]
+  # # print(course_type)
 
-  online_pattern = r"講師([一-龯ぁ-んァ-ン]+) 通学"
-  online_matches = re.search(online_pattern, text)
-  online = online_matches[1]
-  # print(online)
+  # issue_pattern = r"お願い申し上げます。([ー \・一-龯ぁ-んァ-ン。A-Za-z 0-9\s\（\）\-\.ヵ\n、]+)課題と内容"
+  # issue_matches = re.search(issue_pattern, text)
+  # issue = issue_matches[1]
+  # # print(issue)
 
-  return (name, times, start, end, teacher, number_of_lessons, course_type, issue, online)
+  # online_pattern = r"講師([一-龯ぁ-んァ-ン]+) 通学"
+  # online_matches = re.search(online_pattern, text)
+  # online = online_matches[1]
+  # # print(online)
+
+  return (text)
 
 def translate_to_english(tuple):
   """
@@ -133,4 +134,4 @@ location = "".join([str(os.getcwd()), "/",  sys.argv[1]])
 
 print(extract_info_from_pdf(location))
 
-post_to_trello(*translate_to_english(extract_info_from_pdf(location)))
+# post_to_trello(*translate_to_english(extract_info_from_pdf(location)))

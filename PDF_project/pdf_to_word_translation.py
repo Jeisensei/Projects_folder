@@ -8,7 +8,10 @@ deepl_api_key = "c2772beb-6386-4c47-ad0b-339f934dc7d8:fx"
 def extract_info_from_pdf(pdf_path):
   reader = PdfReader(pdf_path)
   page = reader.pages[0]
-  text = page.extract_text()
+  print(page)
+  text = page.extract_text(extraction_mode="layout")
+  print(text)
+
   return (text)
 
 def translate_to_english(tuple):
@@ -31,5 +34,6 @@ def translate_to_english(tuple):
 location = "".join([str(os.getcwd()), "/",  sys.argv[1]])
 print(location)
 
-print(extract_info_from_pdf(location))
+extract_info_from_pdf(location)
+
 
